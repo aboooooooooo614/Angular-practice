@@ -1,0 +1,34 @@
+<div class="item">
+  <input
+    [id]="item.description"
+    type="checkbox"
+    (change)="item.done = !item.done"
+    [checked]="item.done"
+  />
+  <label [for]="item.description">{{ item.description }}</label>
+
+  <div class="btn-wrapper" *ngIf="!editable">
+    <button class="btn" (click)="editable = !editable">Edit</button>
+    <button class="btn btn-warn" (click)="remove.emit()">Delete</button>
+  </div>
+
+  <!-- This section shows only if user clicks Edit button -->
+  <!-- *ngIf 表示如果'editable為true，會出現在DOM中，反之則移除-->
+  <!-- ＃editedItem是範本變數，表示input的內容會存在這個變數，當按下enter時，會呼叫saveItem()，並把值傳給它 -->
+  <div *ngIf="editable">
+    <input
+      class="sm-text-input"
+      placeholder="edit item"
+      [value]="item.description"
+      #editedItem
+      (keyup.enter)="saveItem(editedItem.value)"
+    />
+
+    <div class="btn-wrapper">
+      <button class="btn" (click)="editable = !editable">Cancel</button>
+      <button class="btn btn-save" (click)="saveItem(editedItem.value)">
+        Save
+      </button>
+    </div>
+  </div>
+</div>
